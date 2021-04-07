@@ -9,10 +9,6 @@ from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
 from kivy.properties import ListProperty
 import pandas as pd
-from datetime import datetime
-import pyrebase
-
-
 
 Window.size = (300, 500)
 
@@ -57,14 +53,15 @@ class OpenDialog(Popup):
 
 class MenuOSApp(MDApp):
 
-
-    config = {
-        "apiKey": "apiKey",
-        "authDomain": "kivymos.firebaseapp.com",
-        "databaseURL": "https://kivymos-default-rtdb.firebaseio.com/",
-        "storageBucket": "kivymos.appspot.com"
-    }
-    firebase_app = pyrebase.initialize_app(config)
+    ##############
+    # config = {
+    #     "apiKey": "apiKey",
+    #     "authDomain": "kivymos.firebaseapp.com",
+    #     "databaseURL": "https://kivymos-default-rtdb.firebaseio.com/",
+    #     "storageBucket": "kivymos.appspot.com"
+    # }
+    # firebase_app = pyrebase.initialize_app(config)
+    #################
 
     def __init__(self, items=[], list_items=[]):
         MDApp.__init__(self)
@@ -126,51 +123,55 @@ class MenuOSApp(MDApp):
 
 
     def pay_basket(self):
+        pass
 
-        now = datetime.now()
-        dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
-
-
-        basket_items = self.root.ids.rv.rv_products
-        df = pd.DataFrame(basket_items)
-
-        convert_rv_products = {'sku': int, 'pr_name': str, 'pr_price': float}
-        df = df.astype(convert_rv_products)
-
-        db = self.firebase_app.database()
-        user_name = 'Soyut'
-        basket_items_with_sum = {"Username" : user_name, "Sum": float("%.2f" % df.pr_price.sum()), "Items": basket_items}
-
-        results = db.child(dt_string).set(basket_items_with_sum)
-
-        self.root.ids.rv.rv_products = {}
-
-        self.send_transaction_email(basket_items)
-        self.root.ids.basket_sum_text.text = ""
-        self.show_transaction_history()
+        # now = datetime.now()
+        # dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
+        #
+        #
+        # basket_items = self.root.ids.rv.rv_products
+        # df = pd.DataFrame(basket_items)
+        #
+        # convert_rv_products = {'sku': int, 'pr_name': str, 'pr_price': float}
+        # df = df.astype(convert_rv_products)
+        #
+        # db = self.firebase_app.database()
+        # user_name = 'Soyut'
+        # basket_items_with_sum = {"Username" : user_name, "Sum": float("%.2f" % df.pr_price.sum()), "Items": basket_items}
+        #
+        # results = db.child(dt_string).set(basket_items_with_sum)
+        #
+        # self.root.ids.rv.rv_products = {}
+        #
+        # self.send_transaction_email(basket_items)
+        # self.root.ids.basket_sum_text.text = ""
+        # self.show_transaction_history()
 
     # send transactions as an email
     def send_transaction_email(self, basket_items):
-        message = ""
-        for item in basket_items:
-            message += item['pr_name'] + " - " + item['pr_price'] + "\n"
+        pass
+        # message = ""
+        # for item in basket_items:
+        #     message += item['pr_name'] + " - " + item['pr_price'] + "\n"
+
 
     def show_transaction_history(self):
-        db_history2 = self.firebase_app.database().get()
-
-        tr_user = ""
-        tr_sum = ""
-        for hist in db_history2.each():
-            tr_date = hist.key()
-
-            for h in hist.val().items():
-                if h[0] == "Username":
-                    tr_user = h[1]
-                if h[0] == "Sum":
-                    tr_sum = h[1]
-
-            self.root.ids.rvh.rvh_transactions.append(
-                {'trans_date': str(tr_date), 'trans_user': str(tr_user), 'trans_sum': str(tr_sum)})
+        pass
+        # db_history2 = self.firebase_app.database().get()
+        #
+        # tr_user = ""
+        # tr_sum = ""
+        # for hist in db_history2.each():
+        #     tr_date = hist.key()
+        #
+        #     for h in hist.val().items():
+        #         if h[0] == "Username":
+        #             tr_user = h[1]
+        #         if h[0] == "Sum":
+        #             tr_sum = h[1]
+        #
+        #     self.root.ids.rvh.rvh_transactions.append(
+        #         {'trans_date': str(tr_date), 'trans_user': str(tr_user), 'trans_sum': str(tr_sum)})
 
 
 if __name__ == '__main__':
