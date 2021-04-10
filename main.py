@@ -9,14 +9,19 @@ from kivymd.uix.list import OneLineListItem
 from kivymd.uix.tab import MDTabsBase
 from kivy.properties import ListProperty
 import pandas as pd
+from firebase import firebase
 
-Window.size = (300, 500)
+
+
+#Window.size = (300, 500)
 
 products = []
 
 pr_items = []
 
 tr_items = []
+
+
 
 class RV(RecycleView):
     rv_products = ListProperty(
@@ -53,7 +58,7 @@ class OpenDialog(Popup):
 
 class MenuOSApp(MDApp):
 
-    ##############
+
     # config = {
     #     "apiKey": "apiKey",
     #     "authDomain": "kivymos.firebaseapp.com",
@@ -61,7 +66,8 @@ class MenuOSApp(MDApp):
     #     "storageBucket": "kivymos.appspot.com"
     # }
     # firebase_app = pyrebase.initialize_app(config)
-    #################
+
+
 
     def __init__(self, items=[], list_items=[]):
         MDApp.__init__(self)
@@ -71,7 +77,7 @@ class MenuOSApp(MDApp):
     def on_start(self):
 
         self.show_transaction_history()
-        return MyLayout()
+
 
 
 
@@ -123,7 +129,14 @@ class MenuOSApp(MDApp):
 
 
     def pay_basket(self):
-        pass
+        fb = firebase.FirebaseApplication("https://kivymos-default-rtdb.firebaseio.com/", None)
+        data = {
+            'Name' : "Soyut So",
+            'Email' : 'soyut@gmail.com'
+        }
+        dt = "2021-04-09 22:10:10"
+        fb.post('/dt',data)
+
 
         # now = datetime.now()
         # dt_string = now.strftime("%Y-%m-%d %H:%M:%S")
