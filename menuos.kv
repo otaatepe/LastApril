@@ -137,13 +137,16 @@ MyLayout:
                         id : basket
 
                         BoxLayout:
+                            id : rv_box
                             orientation : 'vertical'
+                            size_hint: 1, 1
                             RV:
                                 id : rv
                                 viewclass: 'TableBasket'
                                 orientation: "vertical"
                                 spacing : 40
                                 padding : 10, 10
+
                                 space_x: self.size[0]/3
                                 data : self.rv_products
 
@@ -163,47 +166,48 @@ MyLayout:
                                             size: self.size
 
                             BoxLayout:
+                                id : paym_box
                                 orientation : 'vertical'
-                                #spacing : 20
-                                #pos : (20, 20)
-                                size: 300, 90
-                                size_hint: None, None
+                                size_hint : 1,.1
                                 canvas.before:
                                     Color:
                                         rgba: (234/255, 192/255, 159/255, 1)
                                     Rectangle:
                                         pos: self.pos
                                         size: self.size
+
                                 BoxLayout :
+                                    id : paymText_box
                                     orientation : 'horizontal'
                                     padding : 10
-
+                                    size_hint: 1, .5
                                     MDLabel :
                                         id : basket_sum
                                         text_size : self.size
                                         halign : 'right'
                                         text : ""
-                                        #size: 50, 50
-                                        size_hint: .5, 1
+
                                     MDLabel :
                                         id : basket_sum_text
                                         text : "Sum :  "
                                         halign : 'right'
                                         text_size : self.size
-                                        #size: 50, 50
-                                        size_hint: .5, 1
+
                                 BoxLayout :
+                                    id : paymButton_box
                                     orientation : 'horizontal'
+                                    #size : 300, 50
+                                    size_hint: 1, .5
+
+
 
                                     Button:
                                         text : 'PAY'
-                                        size: 150, 50
-                                        size_hint: None, None
+
                                         on_release : app.pay_basket()
                                     Button:
                                         text : 'SAVE'
-                                        size_hint: None, None
-                                        size: 150, 50
+
                     Tab:
                         text: 'view-list'
                         #on_release: app.show_items()
